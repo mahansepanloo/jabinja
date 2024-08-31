@@ -8,12 +8,14 @@ class Ja(models.Model):
     addres = models.TextField()
     # img = models.ImageField()
     confirmation = models.BooleanField(default=False)
-    userconfirmation = models.ForeignKey(Suporter, on_delete=models.CASCADE)
+    userconfirmation = models.ForeignKey(Suporter, on_delete=models.CASCADE,null=True,blank=True)
     created = models.DateTimeField(auto_now=True)
     update = models.DateTimeField(auto_now_add=True)
 
     def total_rate(self):
-        return sum([item.get_rate for item in self.jrate.all()])
+        total = sum([item.get_rate for item in self.jrate.all()])
+        count = self.jrate.count()
+        return total / count if count > 0 else 0
 
 
 
